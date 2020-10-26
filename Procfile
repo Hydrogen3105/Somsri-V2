@@ -1,0 +1,1 @@
+web: gunicorn SomsriV2:app
