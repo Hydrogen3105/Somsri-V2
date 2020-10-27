@@ -39,7 +39,7 @@ def plot_upload_data(stock_name):
     date = datetime.now().strftime("%d-%m-%Y")
 
     data = get_current_price_data(stock_name)
-    if(data != 0):
+    if(data != 0 and len(data) > 1):
         print("Plotting {}".format(stock_name))
         x = list(range(0,len(data)))
         plt.plot(x, data,'g')
@@ -48,11 +48,12 @@ def plot_upload_data(stock_name):
         plt.title("{} price chart".format(stock_name))
 
         #linear regression
-        m, b = np.polyfit(x, data, 1)
-        fit_eq = []
-        for i in x:
-            fit_eq.append(m*i + b)
-        plt.plot(x, fit_eq, 'r')
+        if(len(data) < 5):
+            m, b = np.polyfit(x, data, 1)
+            fit_eq = []
+            for i in x:
+                fit_eq.append(m*i + b)
+            plt.plot(x, fit_eq, 'r')
 
         #plt.show()
         plt.savefig("graphs/main_{}_{}.jpg".format(date,stock_name))
