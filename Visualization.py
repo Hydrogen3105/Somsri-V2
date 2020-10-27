@@ -48,7 +48,7 @@ def plot_upload_data(stock_name):
         plt.title("{} price chart".format(stock_name))
 
         #linear regression
-        if(len(data) < 5):
+        if(len(data) > 5):
             m, b = np.polyfit(x, data, 1)
             fit_eq = []
             for i in x:
