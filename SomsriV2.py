@@ -41,7 +41,13 @@ def webhook():
         stock = ""
         reply_message = ""
         graph_url = ""
-        if len(list_message) == 2 and list_message[0] == 'จำลอง':
+        if message == 'ช่วยเหลือ':
+            reply_message = "หากคุณต้องการดูสถานะหุ้น SET50\nพิมพ์ รายชื่อหุ้น เช่น 'advanc'\n\n"+ "หากคุณต้องการจำลองราคาหุ้นตัวนั้น\nพิมพ์ 'จำลอง' + ชื่อย่อหุ้น เช่น 'จำลอง advanc'\n\n" 
+            reply_message = reply_message + "หากต้องการดูราpชื่อหุ้นใน SET50\nพิมพ์ 'รายชื่อ'\n\n" + "หากต้องการดูคำสั่งอีกครั้ง\nพิมพ์ 'ช่วยเหลือ'"
+        elif message == 'รายชื่อ':
+            for stock in stocks_name:
+                reply_message = reply_message + stock + "\n"
+        elif len(list_message) == 2 and list_message[0] == 'จำลอง':
             if list_message[1].upper() in stocks_name:
                 print('Simulating')
                 simulated_data = monte_simulation(list_message[1].upper(),5000)
