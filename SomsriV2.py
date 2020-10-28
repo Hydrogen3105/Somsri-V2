@@ -47,6 +47,8 @@ def webhook():
         elif message == 'รายชื่อ':
             for stock in stocks_name:
                 reply_message = reply_message + stock + "\n"
+        elif message == 'เวลา':
+            reply_message = datetime.now().strftime("%d-%m-%Y")
         elif len(list_message) == 2 and list_message[0] == 'จำลอง':
             if list_message[1].upper() in stocks_name:
                 print('Simulating')
@@ -150,18 +152,21 @@ def generate_answer(stock):
 
 def get_graph_url(stock_name, last_data):
     date = datetime.now().strftime("%d-%m-%Y")
-    last_update_time = last_data["time"]
-    last_update = last_update_time.split(":")[0] + "-" + last_update_time.split(":")[1]
+    if last_data == 0:
+        return ""
+    else:
+        last_update_time = last_data["time"]
+        last_update = last_update_time.split(":")[0] + "-" + last_update_time.split(":")[1]
 
-    file_name = 'main_{}_{}.jpg'.format(date,stock_name)
-    print("Getting graph url")
+        file_name = 'main_{}_{}.jpg'.format(date,stock_name)
+        print("Getting graph url")
 
-    bucket_name = "somsriversion2.appspot.com"
-    bucket = storage.bucket(bucket_name)
-    blob = bucket.blob('graphs/main/{}_'.format(last_update) +file_name)
-    print(blob.public_url)
-    
-    return blob.public_url
+        bucket_name = "somsriversion2.appspot.com"
+        bucket = storage.bucket(bucket_name)
+        blob = bucket.blob('graphs/main/{}_'.format(last_update) +file_name)
+        print(blob.public_url)
+        
+        return blob.public_url
 
 
 def get_last_record_from_database(stock_name):
