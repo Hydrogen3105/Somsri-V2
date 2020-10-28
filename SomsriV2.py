@@ -53,10 +53,8 @@ def webhook():
             for word in list_message:
                 if word.upper() in stocks_name:
                     stock = word.upper()
-                    reply_message, hasGraph = generate_answer(stock)
-                    if hasGraph:
-                        graph_url = get_graph_url(stock)
-                        break
+                    reply_message, url = generate_answer(stock)
+                    graph_url = url
 
         ReplyMessage(reply_token,reply_message,access_token,graph_url)
         return request.json, 200
@@ -118,6 +116,7 @@ def generate_answer(stock):
     answer_str = ""
     hasGraph = False
     stock_data = get_last_record_from_database(stock)
+    generated_graph = get_graph_url(stock, stock_data)
     if stock_data == 0:
         stock_data = getStockData(stock)
         answer_str = """สถานะหุ้น {} ณ ขณะนี้\nราคา ณ ขณะนี้ : {} บาท\nเปลี่ยนแปลง : {}\n% เปลี่ยนแปลง : {}\nราคาปิดก่อนหน้า : {} บาท\nราคาเปิดของวันนี้ : {} บาท\nราคาสูงที่สุดของวันนี้ : {} บาท
@@ -137,12 +136,16 @@ def generate_answer(stock):
                                     stock_data["volumn"],stock_data["price"],stock_data["par_price"],stock_data["ceiling_price"],
                                     stock_data["floor_price"],stock_data["buy_offer"],stock_data["sell_offer"])
     else: answer_str = "ไม่พบข้อมูล ณ ขณะนี้ ขออภัยค่ะ"
-    return [answer_str, hasGraph]
 
-def get_graph_url(stock_name):
+    if hasGraph:
+        return [answer_str, generated_graph]
+    else: 
+        return [answer_str, ""]
+
+def get_graph_url(stock_name, last_data):
     date = datetime.now().strftime("%d-%m-%Y")
-    last_update = get_last_record_from_database(stock_name)["time"]
-    last_update = last_update.split(":")[0] + "-" + last_update.split(":")[1]
+    last_update_time = last_data["time"]
+    last_update = last_update_time.split(":")[0] + "-" + last_update_time.split(":")[1]
 
     file_name = 'main_{}_{}.jpg'.format(date,stock_name)
     print("Getting graph url")
