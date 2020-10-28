@@ -102,13 +102,8 @@ def upload_graph(file_name,stock_name):
     sourcefile = 'graphs/' + file_name
     blob.upload_from_filename(sourcefile)
     blob.make_public()
-    print(blob.public_url)
 
     return blob.public_url
 
 if __name__ == "__main__":
-    #get_current_price_data("ADVANC")
-    #print(plot_upload_data(get_current_price_data("CBG")))
-    #print(get_current_price_data("ADVANC"))
-    #plot_bar_chart("VGI")
     pass

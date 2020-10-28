@@ -49,19 +49,19 @@ def addAllToDatabase():
     #get all stocks data from Scrapping.py
     for stock_name in stocks_name:
         addToDatabase(stock_name)
+    for stock_name in stocks_name:
         plot_upload_data(stock_name)
 
         
 
 if __name__ == "__main__":
-    #addToDatabase("ADVANC")
     while(1):
         time = getCurrentTime()
         hour = int(time[0])
         minute = int(time[1])
         second = int(time[2])
         
-        if (hour >= 16) or (hour <= 9) :
+        if (hour >= 17) or (hour <= 9) :
             print("Stock market closed, please comeback tomorrow")
         elif (minute % 2 == 0 and second == 0):
             print(time)
