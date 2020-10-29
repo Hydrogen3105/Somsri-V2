@@ -19,7 +19,7 @@ def isMarketOpen(stock_name):
     span_status = div_status[0].findAll("span")
     market_status = span_status[1].text.strip()
 
-    if market_status == "Closed":
+    if market_status == "Closed" or market_status == 'Intermission':
         return False
     return True
 
