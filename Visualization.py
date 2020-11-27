@@ -48,7 +48,7 @@ def plot_upload_data(stock_name):
             plt.ylabel("Price (Bath)")
             plt.title("{} price chart".format(stock_name))
         except:
-            pass
+            print("Can't plot {}".format(stock_name))
 
         #linear regression
         try:
@@ -59,7 +59,7 @@ def plot_upload_data(stock_name):
                     fit_eq.append(m*i + b)
                 plt.plot(x, fit_eq, 'r')
         except:
-            pass
+            print("Can't plot linear graph {}".format(stock_name))
 
         #plt.show()
         try:
@@ -67,7 +67,7 @@ def plot_upload_data(stock_name):
             file_url = upload_graph("main_{}_{}.jpg".format(date,stock_name),stock_name)
         except:
             pass
-        
+
         plt.clf()
         #return file_url
     else: return ""
