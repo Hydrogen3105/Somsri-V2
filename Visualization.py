@@ -41,24 +41,33 @@ def plot_upload_data(stock_name):
     data = get_current_price_data(stock_name)
     if(data != 0 and len(data) > 1):
         print("Plotting {}".format(stock_name))
-        x = list(range(0,len(data)))
-        plt.plot(x, data,'g')
-        plt.xlabel("time")
-        plt.ylabel("Price (Bath)")
-        plt.title("{} price chart".format(stock_name))
+        try:
+            x = list(range(0,len(data)))
+            plt.plot(x, data,'g')
+            plt.xlabel("time")
+            plt.ylabel("Price (Bath)")
+            plt.title("{} price chart".format(stock_name))
+        except:
+            pass
 
         #linear regression
-        if(len(data) > 5):
-            m, b = np.polyfit(x, data, 1)
-            fit_eq = []
-            for i in x:
-                fit_eq.append(m*i + b)
-            plt.plot(x, fit_eq, 'r')
+        try:
+            if(len(data) > 5):
+                m, b = np.polyfit(x, data, 1)
+                fit_eq = []
+                for i in x:
+                    fit_eq.append(m*i + b)
+                plt.plot(x, fit_eq, 'r')
+        except:
+            pass
 
         #plt.show()
-        plt.savefig("graphs/main_{}_{}.jpg".format(date,stock_name))
-        file_url = upload_graph("main_{}_{}.jpg".format(date,stock_name),stock_name)
-
+        try:
+            plt.savefig("graphs/main_{}_{}.jpg".format(date,stock_name))
+            file_url = upload_graph("main_{}_{}.jpg".format(date,stock_name),stock_name)
+        except:
+            pass
+        
         plt.clf()
         #return file_url
     else: return ""
