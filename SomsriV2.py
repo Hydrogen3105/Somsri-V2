@@ -52,7 +52,7 @@ def webhook():
         elif len(list_message) == 2 and list_message[0] == 'จำลอง':
             if list_message[1].upper() in stocks_name:
                 print('Simulating')
-                simulated_data = monte_simulation(list_message[1].upper(),6000)
+                simulated_data = monte_simulation(list_message[1].upper(),3000)
                 if simulated_data != -1:
                     reply_message = "ผลการจำลองราคาหุ้น {}\nจะพบว่าการจำลองราคาหุ้นเฉลี่ยในอีก 1 วันต่อไปมีแนวโน้มที่จะมีค่าประมาณ {:.3f}\nและมีอัตราของราคาตกลง 10 % คิดเป็น {:.3f} %".format(list_message[1].upper(),simulated_data[0],simulated_data[1] *100)
                 else: 
